@@ -10,12 +10,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="yes" />
     <link rel="stylesheet" href="css/app.min.css" />
     <link rel="stylesheet" href="css/responsive.min.css" />
-    <script src="http://localhost:8001/target/target-script-migulp buildn.js"></script>
+    <script src="http://localhost:8001/target/target-script-min.js"></script>
     <script src="cordova.js"></script>
     <script src="js/app.min.js"></script>
-  </head>gulp build
-  <body ng-app="ForexPlay" ng-controller="MainController">
- <script src="js/app.min.js"></script>
+  </head>
+  <body ng-app="ForexPlay" ng-controller="ManualTradingController as main">
+
     <!-- Sidebars -->
     <div ng-include="'sidebar.html'" 
             ui-track-as-search-param='true'

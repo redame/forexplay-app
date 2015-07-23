@@ -1,10 +1,10 @@
-function translateCtrl($translate, $scope) {
+/*function translateCtrl($translate, $scope) {
     $scope.changeLanguage = function (langKey) {
         $translate.use(langKey);
     };
-}
+}*/
 
-function config($translateProvider) {
+/*function config($translateProvider) {
 
     $translateProvider
         .translations('en', {
@@ -106,9 +106,9 @@ function config($translateProvider) {
 
     $translateProvider.preferredLanguage('en');
 
-}
+}*/
 
-angular.module('ForexPlay.controllers.Main', ['pascalprecht.translate']).config(config);
+/*angular.module('ForexPlay.controllers.Main').config(config);*/
 
 //case class StrategyAttribute(name:String, inputType:String, enabled:Boolean, min:Int, max:Int, actualValue:Int)
 function StrategyAttribute(name, inputType, min, max, actualValue, enabled, stepSize) {

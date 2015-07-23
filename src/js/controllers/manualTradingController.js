@@ -6,7 +6,7 @@ var tradingViewWidget = undefined;
 //TODO add a button to send back to manual testing
 //TODO add a dashboard
 
-var manualTradingController = function ($scope, $log, $filter, $location, $modal, $translate,
+var manualTradingController = function ($scope, $log, $filter, $location, /*$translate,*/
                                         appSettings, sessionFactory, positionService, userService) {
 
     function removeTradingWidget() {
@@ -42,17 +42,17 @@ var manualTradingController = function ($scope, $log, $filter, $location, $modal
                 .attr('name', "forward")
                 .attr('title', ">>").on('click', function (e) {
                     $scope.updateChart();
-                }).append($('<span>' + $translate.instant('FORWARD') + '</span>'));
+                }).append($('<span>' + /*$translate.instant(*/'FORWARD'/*)*/ + '</span>'));
             tradingViewWidget.createButton().attr('title', "Buy")
                 .on('click', function (e) {
                     $scope.openBuyPosition()
 
-                }).append($('<span>' + $translate.instant('BUY') + '</span>'));
+                }).append($('<span>' + /*$translate.instant(*/'BUY'/*)*/ + '</span>'));
 
             tradingViewWidget.createButton().attr('title', "Sell")
                 .on('click', function (e) {
                     $scope.openSellPosition()
-                }).append($('<span>' + $translate.instant('SELL') + '</span>'));
+                }).append($('<span>' + /*$translate.instant(*/'SELL'/*) */+ '</span>'));
             tradingViewWidget.onSymbolChange($scope.symbolChangeHandler);
         })
     }
@@ -91,10 +91,6 @@ var manualTradingController = function ($scope, $log, $filter, $location, $modal
             })
         }
     };
-
-    $scope.retrieveStrategy = function () {
-        $scope.openModal()
-    }
 
     $scope.reversePosition = function (widgetPosition) {
         var trade = widgetPosition.position;
@@ -247,14 +243,13 @@ var manualTradingController = function ($scope, $log, $filter, $location, $modal
         //TODO get last session from getCurrentUser instead of separate calls
         //TODO user promisses also in angular
         sessionFactory.getCurrentUser().success(function (data, status, headers) {
-
             userService.user = data;
             var tempSession = new FxSession(null, userService.user.uid, $scope.getNowFormatted(), $scope.getNowFormatted(),
                 "EURUSD", $scope.getNowFormatted(), $scope.positionSize)
             sessionFactory.getOrCreateSession(tempSession, $scope).success(function (data, status, headers) {
                 positionService.session = data;
                 positionService.instrument = data.pair;
-                createWidget($translate.use(), positionService.session.pair)
+                createWidget(/*$translate.use()*/'EN', positionService.session.pair)
                 $scope.positionSize = data.positionSize;
                 $scope.loadTradesWithSession()
             }).error(function (data, status, headers) {
@@ -262,8 +257,6 @@ var manualTradingController = function ($scope, $log, $filter, $location, $modal
             })
 
             $scope.getSessionHistory();
-            sessionFactory.retrieveLiveStrategies();
-
         })
             .error(function (data, status, headers) {
                 alert("Error getting user")
@@ -410,7 +403,7 @@ var manualTradingController = function ($scope, $log, $filter, $location, $modal
             .success(function (data, status) {
                 positionService.session = data;
                 if (!skipWidgetCreation)
-                    createWidget($translate.use(), positionService.session.pair)
+                    createWidget(/*$translate.use()*/'EN', positionService.session.pair)
                 $scope.getOrdersTotal();
                 $scope.getSessionHistory();
 
@@ -433,7 +426,7 @@ var manualTradingController = function ($scope, $log, $filter, $location, $modal
     $scope.init();
 };
 
-manualTradingController.$inject = ['$scope', '$log', '$filter', '$location', '$modal', '$translate',
+manualTradingController.$inject = ['$scope', '$log', '$filter', '$location', /*'$translate',*/
     'appSettings', 'sessionFactory', 'positionService', 'userService'];
 
 angular.module('ForexPlay.controllers.Main').controller('ManualTradingController', manualTradingController);
