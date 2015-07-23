@@ -19,7 +19,8 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.5",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "ngCordova": "~0.1.17-alpha"
   },
   "overrides": {
     "bootstrap": {
