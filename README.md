@@ -1,4 +1,4 @@
-* Play with forex on historical data, get used with using technical indicators
+Play with forex on historical data, get used with using technical indicators
 
 Make sure you have node and npm: npm install and bower install
 
