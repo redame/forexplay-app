@@ -3,4 +3,7 @@ angular
     .service('userService', function () {
         var userService = this;
         var user;
+
+        var loggedIn = false;
+        var logInInfo;
     })

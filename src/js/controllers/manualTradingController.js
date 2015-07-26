@@ -240,27 +240,7 @@ var manualTradingController = function ($scope, $log, $filter, $location, /*$tra
     $scope.counter = 0;
 
     $scope.init = function () {
-        //TODO get last session from getCurrentUser instead of separate calls
-        //TODO user promisses also in angular
-        sessionFactory.getCurrentUser().success(function (data, status, headers) {
-            userService.user = data;
-            var tempSession = new FxSession(null, userService.user.uid, $scope.getNowFormatted(), $scope.getNowFormatted(),
-                "EURUSD", $scope.getNowFormatted(), $scope.positionSize)
-            sessionFactory.getOrCreateSession(tempSession, $scope).success(function (data, status, headers) {
-                positionService.session = data;
-                positionService.instrument = data.pair;
-                createWidget(/*$translate.use()*/'EN', positionService.session.pair)
-                $scope.positionSize = data.positionSize;
-                $scope.loadTradesWithSession()
-            }).error(function (data, status, headers) {
-                alert("Error creating session")
-            })
-
-            $scope.getSessionHistory();
-        })
-            .error(function (data, status, headers) {
-                alert("Error getting user")
-            })
+        createWidget(/*$translate.use()*/'EN', "EURUSD")
     }
 
     function getBestSessionSoFar() {

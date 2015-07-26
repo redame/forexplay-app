@@ -13,44 +13,26 @@
 
         var remoteHost = "http://localhost:9000"
 
-        factory.getCurrentUser = function () {
-            return $http.get(remoteHost + '/getUserWithId/10000010')
-        }
 
         factory.getBestSessionForUser = function () {
-            $http.get(remoteHost +'/getBestSessionForUserMobile/'+userService.user.uid).success(function (data) {
+            $http.get(remoteHost+'/getBestSessionForUser').success(function (data) {
                 positionService.bestSession = data
             }).error(genericError)
-        };
+        }
 
         factory.getOrCreateSession = function (session) {
-            return $http.post(remoteHost + '/getOrCreateSessionMobile/'+session.userId)
-        };
-
-
-        factory.saveTradingInformation = function (tradingAccount, tradingAccountPass) {
-            $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-            //return $http.post('/closeSession', )
-            $http({
-                method: 'POST',
-                url: '/saveTradingInformation',
-                data: $.param({tradingAccount: tradingAccount, tradingAccountPass: tradingAccountPass}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).success(function (data, status, headers) {
-                userService.user = data
-                console.log(userService.user)
-            }).error(genericError)
+            return $http.post(remoteHost+'/getOrCreateSession', session)
         }
 
         factory.getSessionsForUser = function ($scope) {
-            return $http.get( remoteHost + '/getSessionsForUserMobile/'+userService.user.uid).success(function (data) {
+            return $http.get(remoteHost+'/getSessionsForUser').success(function (data) {
                 positionService.sessionHistory = data;
                 factory.getBestSessionForUser()
             }).error(genericError)
         }
 
         factory.createSessionTrade = function (widget) {
-            $http.post('/createSessionTrade', widget.position).success(function (data, status, headers) {
+            $http.post(remoteHost+'/createSessionTrade', widget.position).success(function (data, status, headers) {
 
                 var n = data
                 var trade = null
@@ -80,26 +62,8 @@
             }).error(genericError)
         };
 
-        factory.processStrategyResult = function (strategy, result) {
-            positionService.strategyStats = result
-            //time:Long, datapoint:Double
-            var dp = positionService.strategyStats.stats
-            var datapoints = []
-            var str = ""
-            for (var index = 0; index < dp.length; index++) {
 
-                datapoints[index] = [parseInt(dp[index].time), parseInt(dp[index].datapoint)];
-                str += "[" + parseInt(dp[index].time) + "," + parseInt(dp[index].datapoint) + "]"
-            }
 
-            positionService.flotData = [
-                {
-                    data: datapoints,
-                    label: strategy
-                }
-            ];
-            positionService.loading = false;
-        }
 
         factory.updateSessionTrade = function (position, $scope) {
             $http.post('/updateSessionTrade', position).success(function (data, status, headers) {

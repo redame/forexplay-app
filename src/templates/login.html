@@ -1,0 +1,24 @@
+<section class="section container-fluid">
+
+    <h1 class="logo-name">FX+</h1>
+    <h3>Welcome to FX+</h3>
+    <p>Or login using a username and password.</p>
+    <form class="m-t" role="form" autocomplete="off" method="POST">
+        <div class="form-group  " id="username_field">
+            <input type="email" id="username" name="username" ng-model="username" value="" placeholder="Email address" required="" class="form-control input-lg">
+        </div>
+        <div class="form-group  " id="password_field">
+            <input type="password" id="password" name="password"
+                   ng-model="password"
+                   placeholder="Password" required="" type="password" class="form-control input-lg">
+        </div>
+        <button type="submit" id="submit"
+                ng-click="login()"
+                class="btn btn-primary block full-width m-b">Login</button>
+
+        <a href="/reset"><small>Did you forget your password?</small></a>
+
+        <p class="text-muted text-center"><small>Do not have an account?</small></p>
+        <a class="btn btn-sm btn-white btn-block" href="/register">Create an account</a>
+    </form>
+</section>
