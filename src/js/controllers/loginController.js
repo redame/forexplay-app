@@ -9,13 +9,19 @@ var loginController = function ($scope, $log, $filter, $location,
     $scope.password = "costinaldea";
 
     $scope.getSessionHistory = function () {
-        sessionFactory.getSessionsForUser($scope);
+        sessionFactory.getSessionsForUser($scope).success(function(data) {
+            userService.tradingSessions = data
+            console.log(data)
+        }).error(function(data) {
+            console.log(data)
+        });
     };
 
     $scope.loadSessionData = function () {
         var tempSession = new FxSession(null, userService.user.uid, $scope.getNowFormatted(), $scope.getNowFormatted(),
             "EURUSD", $scope.getNowFormatted(), $scope.positionSize)
         sessionFactory.getOrCreateSession(tempSession, $scope).success(function (data, status, headers) {
+            console.log(data)
             positionService.session = data;
             positionService.instrument = data.pair;
             $scope.positionSize = data.positionSize;

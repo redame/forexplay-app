@@ -20,7 +20,7 @@ var manualTradingController = function ($scope, $log, $filter, $location, /*$tra
         if (tradingViewWidget != undefined) {
             tradingViewWidget.remove();
         }
-        tradingViewWidget = new TradingView.widget({
+     /*   tradingViewWidget = new TradingView.widget({
             fullscreen: true,
             container_id: "tv_chart_container",
             //	BEWARE: no trailing slash is expected in feed URL
@@ -42,19 +42,19 @@ var manualTradingController = function ($scope, $log, $filter, $location, /*$tra
                 .attr('name', "forward")
                 .attr('title', ">>").on('click', function (e) {
                     $scope.updateChart();
-                }).append($('<span>' + /*$translate.instant(*/'FORWARD'/*)*/ + '</span>'));
+                }).append($('<span>' + /!*$translate.instant(*!/'FORWARD'/!*)*!/ + '</span>'));
             tradingViewWidget.createButton().attr('title', "Buy")
                 .on('click', function (e) {
                     $scope.openBuyPosition()
 
-                }).append($('<span>' + /*$translate.instant(*/'BUY'/*)*/ + '</span>'));
+                }).append($('<span>' + /!*$translate.instant(*!/'BUY'/!*)*!/ + '</span>'));
 
             tradingViewWidget.createButton().attr('title', "Sell")
                 .on('click', function (e) {
                     $scope.openSellPosition()
-                }).append($('<span>' + /*$translate.instant(*/'SELL'/*) */+ '</span>'));
+                }).append($('<span>' + /!*$translate.instant(*!/'SELL'/!*) *!/+ '</span>'));
             tradingViewWidget.onSymbolChange($scope.symbolChangeHandler);
-        })
+        })*/
     }
 
     $scope.signalManager = function () {

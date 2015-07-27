@@ -48,7 +48,7 @@
 
 
         factory.createSessionTrade = function (widget) {
-            $http.post('/createSessionTrade', widget.position).success(function (data, status, headers) {
+            $http.post(remoteHost+'/createSessionTrade', widget.position).success(function (data, status, headers) {
 
                 var n = data
                 var trade = null
@@ -66,13 +66,13 @@
 
 
         factory.updateSessionTrade = function (position, $scope) {
-            $http.post('/updateSessionTrade', position).success(function (data, status, headers) {
+            $http.post(remoteHost+'/updateSessionTrade', position).success(function (data, status, headers) {
                 $scope.loadTradesWithSession()
             }).error(genericError)
         };
 
         factory.getSessionTrades = function (session) {
-            return $http.get('/getSessionTrades?sessionId=' + session.sessionId + "&userId=" + session.userId)
+            return $http.get(remoteHost+'/getSessionTrades?sessionId=' + session.sessionId + "&userId=" + session.userId)
                 .success(function (data) {
                     positionService.positions = jQuery.map(data, function (n, i) {
                         if (n.tradeType === PositionType.SELL.name) {
@@ -86,7 +86,7 @@
         };
 
         factory.createNewSession = function (fxSession) {
-            return $http.post('/createSession', fxSession)
+            return $http.post(remoteHost+'/createSession', fxSession)
         };
 
         factory.closeSession = function (sessionId, lastPrice) {
@@ -99,7 +99,7 @@
             //return $http.post('/closeSession', )
             $http({
                 method: 'POST',
-                url: '/closeSession',
+                url: remoteHost+'/closeSession',
                 data: $.param({sessionId: sessionId, lastPrice: lastPrice}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
