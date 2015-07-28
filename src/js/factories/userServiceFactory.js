@@ -1,22 +1,18 @@
 (function () {
-    var userServiceFactory = function ($http, $log, $rootScope, $location, positionService, userService) {
+    var userServiceFactory = function ($http, $log, $rootScope, $location, appSettings, userService) {
         var factory = {};
 
-        var positionService = positionService;
+        var appSettings = appSettings;
 
-        $http.defaults.useXDomain = true;
         $http.defaults.useXDomain = true;
 
         function genericError(data) {
             console.log(data || "Closing session failed")
         }
 
-        var remoteHost = "http://localhost:9000"
-
-
         factory.login = function (userAuthenticationDao) {
             console.log("Authentication calling")
-           return $http.post(remoteHost + '/clientAuthenticate', userAuthenticationDao)
+           return $http.post(appSettings.endpoint + '/clientAuthenticate', userAuthenticationDao)
         }
 
         factory.getCurrentUser = function () {
@@ -24,7 +20,7 @@
 
             var request = $http({
                 method: 'get',
-                url: remoteHost + '/getCurrentUser',
+                url: appSettings.endpoint + '/getCurrentUser',
                 withCredentials: true
             });
 
@@ -35,6 +31,6 @@
         return factory;
     };
 
-    userServiceFactory.$inject = ['$http', '$log', '$rootScope', '$location', 'positionService', 'userService'];
+    userServiceFactory.$inject = ['$http', '$log', '$rootScope', '$location', 'appSettings', 'userService'];
     angular.module('ForexPlay').factory('userServiceFactory', userServiceFactory);
 }());
