@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="css/app.min.css" />
     <link rel="stylesheet" href="css/responsive.min.css" />
     <!-- inject:js -->
+
+    <script type="text/javascript" src="libs/jquery/jquery-2.1.1.min.js"></script>
+    <script src="libs/charting_library/charting_library.min.js"></script>
     <script src="js/app.min.js"></script>
   </head>
   <body ng-app="ForexPlay" ng-controller="ManualTradingController as main">
@@ -51,7 +54,8 @@
       <!-- App Body -->
       <div class="app-body">
         <div class="app-content">
-          <ng-view></ng-view>  
+          <ng-view></ng-view>
+          <div id="tv_chart_container"></div>
         </div>
       </div>
 

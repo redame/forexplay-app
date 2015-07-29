@@ -9,9 +9,10 @@
 Datafeeds = {};
 
 
-Datafeeds.sUDFCompatibleDatafeed = function (datafeedURL, updateFrequency) {
+Datafeeds.sUDFCompatibleDatafeed = function (datafeedURL, appSettings, updateFrequency) {
 
     this._datafeedURL = datafeedURL;
+    this._appSettings = appSettings;
     this._configuration = undefined;
 
     this._symbolSearch = null;
@@ -25,10 +26,11 @@ Datafeeds.sUDFCompatibleDatafeed = function (datafeedURL, updateFrequency) {
 
     this._initialize();
 };
-Datafeeds.UDFCompatibleDatafeed = function (datafeedURL, updateFrequency) {
+Datafeeds.UDFCompatibleDatafeed = function (datafeedURL, appSettings, updateFrequency) {
 
     this._datafeedURL = datafeedURL;
     this._configuration = undefined;
+    this._appSettings = appSettings
 
     this._symbolSearch = null;
     this._symbolsStorage = null;
@@ -111,7 +113,7 @@ Datafeeds.UDFCompatibleDatafeed.prototype._initialize = function () {
 
     var that = this;
 
-    this._send("/config")
+    this._send('http://quanttrade.herokuapp.com/config')
         .done(function (response) {
             var configurationData = JSON.parse(response);
             that._setupWithConfiguration(configurationData);
@@ -202,7 +204,7 @@ Datafeeds.UDFCompatibleDatafeed.prototype.searchSymbolsByName = function (ticker
 
     if (this._configuration.supports_search) {
 
-        this._send("/search", {
+        this._send('http://quanttrade.herokuapp.com/search', {
             limit: MAX_SEARCH_RESULTS,
             query: ticker.toUpperCase(),
             symbolType: type,
@@ -257,7 +259,7 @@ Datafeeds.UDFCompatibleDatafeed.prototype.searchSymbolsByName = function (ticker
 };
 
 
-Datafeeds.UDFCompatibleDatafeed.prototype._symbolResolveURL = "/symbols";
+Datafeeds.UDFCompatibleDatafeed.prototype._symbolResolveURL = "http://quanttrade.herokuapp.com/symbols";
 
 
 //	BEWARE: this function does not consider symbol's exchange
@@ -384,9 +386,9 @@ Datafeeds.UDFCompatibleDatafeed.prototype.getBars = function (symbolInfo, resolu
         throw "Got a JS time instead of Unix one.";
     }
 
-    var url = symbolInfo.type != 'forex' ? this._datafeedURL : ""
+    var url = symbolInfo.type != 'forex' ? this._datafeedURL : "http://quanttrade.herokuapp.com"
 
-    this._send(url + this._historyURL, {
+    this._send("http://quanttrade.herokuapp.com" + this._historyURL, {
         symbol: symbolInfo.ticker.toUpperCase(),
         resolution: resolution,
         from: rangeStartDate,
@@ -539,7 +541,7 @@ Datafeeds.SymbolsStorage.prototype._requestFullSymbolsList = function () {
 
         this._exchangesWaitingForData[exchange] = "waiting_for_data";
 
-        this._datafeed._send(this._datafeed._datafeedURL + "/symbol_info", {
+        this._datafeed._send("https://demo_feed.tradingview.com/symbol_info", {
             group: exchange
         })
             .done(function (exchange) {
