@@ -2,8 +2,8 @@
  * Created by costin on 25.7.15.
  */
 
-var loginController = function ($scope, $log, $filter, $location,
-                                userServiceFactory, positionService, userService, sessionFactory, appSettings) {
+var loginController = function ($scope, $log, $filter, $location, $rootScope,
+                                userServiceFactory, positionService, userService, sessionFactory) {
     $scope.rememberMe = true;
     $scope.username = "costinaldea@yahoo.co.uk";
     $scope.password = "costinaldea";
@@ -12,51 +12,13 @@ var loginController = function ($scope, $log, $filter, $location,
         sessionFactory.getSessionsForUser($scope).success(function(data) {
             userService.tradingSessions = data
             console.log(data)
+            $location.path("/main")
+            $rootScope.$emit('loginComplete', 'loggedIn'); // $rootScope.$on
+
         }).error(function(data) {
             console.log(data)
         });
     };
-
-    function createWidget(lang, security) {
-        if (tradingViewWidget != undefined) {
-            tradingViewWidget.remove();
-        }
-        tradingViewWidget = new TradingView.widget({
-            fullscreen: true,
-            container_id: "tv_chart_container",
-            //	BEWARE: no trailing slash is expected in feed URL
-            datafeed: new Datafeeds.UDFCompatibleDatafeed(appSettings, "https://demo_feed.tradingview.com"),
-            library_path: "libs/charting_library/",
-            symbol: security,
-            locale: 'en',
-            //	Regression Trend-related functionality is not implemented yet, so it's hidden for a while
-            enabled_features: ["trading_options"],
-            disabled_features: ["use_localstorage_for_settings", "header_screenshot",
-                "create_volume_indicator_by_default", "header_compare", "header_saveload", "header_settings"],
-            charts_storage_url: 'http://saveload.tradingview.com',
-            client_id: 'tradingview.com',
-            user_id: 'public_user_id',
-            debug: false
-        });
-        tradingViewWidget.onChartReady(function (e) {
-            tradingViewWidget.createButton()
-                .attr('name', "forward")
-                .attr('title', ">>").on('click', function (e) {
-                    $scope.updateChart();
-                }).append($('<span>Forward</span>'));
-            tradingViewWidget.createButton().attr('title', "Buy")
-                .on('click', function (e) {
-                    $scope.openBuyPosition()
-
-                }).append($('<span>Buy</span>'));
-
-            tradingViewWidget.createButton().attr('title', "Sell")
-                .on('click', function (e) {
-                    $scope.openSellPosition()
-                }).append($('<span>Sell</span>'));
-            tradingViewWidget.onSymbolChange($scope.symbolChangeHandler);
-        })
-    }
 
     $scope.loadSessionData = function () {
         var tempSession = new FxSession(null, userService.user.uid, $scope.getNowFormatted(), $scope.getNowFormatted(),
@@ -91,9 +53,6 @@ var loginController = function ($scope, $log, $filter, $location,
             }).error(function (data) {
                 console.log("We have an error: " + data)
             })
-            $location.path("/main")
-            createWidget(/*$translate.use()*/'EN', "EURUSD")
-
         }).error(function (data, status) {
             console.log("We have an error: " + data)
         });
@@ -108,6 +67,6 @@ function UserAuthenticationDao(username, password) {
     this.password = password
 }
 
-loginController.$inject = ['$scope', '$log', '$filter', '$location', 'userServiceFactory', 'positionService', 'userService', 'sessionFactory', "appSettings"];
+loginController.$inject = ['$scope', '$log', '$filter', '$location', '$rootScope', 'userServiceFactory', 'positionService', 'userService', 'sessionFactory'];
 
-angular.module('ForexPlay.controllers.Main').controller('LoginController', loginController);
+angular.module('ForexPlay.controllers.Main', []).controller('LoginController', loginController);
